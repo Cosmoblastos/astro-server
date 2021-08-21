@@ -1,0 +1,7 @@
+{
+  "development": {
+    "url": "http://localhost:4000",
+    "host": "localhost",
+    "port": "4000"
+  }
+}

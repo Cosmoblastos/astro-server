@@ -1,0 +1,24 @@
+type Tokens {
+    token: String
+    refreshToken: String
+}
+
+type AuthResult {
+    user: User
+    tokens: Tokens
+    error: String
+}
+
+input CreateSignUp {
+    id: ID
+    firstName: String!
+    lastName: String!
+    email: String!
+    password: String!
+    phoneNumber: String
+}
+
+extend type Mutation {
+    login(email: String!, password: String!): AuthResult!
+    signUp(data: CreateSignUp): AuthResult!
+}

@@ -1,0 +1,20 @@
+{
+  "development": {
+    "logging": false,
+    "dialect": "mysql",
+    "host": "localhost",
+    "port": 3306,
+    "username": "astro",
+    "password": "astro",
+    "database": "astro-dev",
+    "pool": {
+      "max": 5,
+      "idle": 30000,
+      "acquire": 60000
+    },
+    "define": {
+      "underscore": true,
+      "timestamps": false
+    }
+  }
+}
