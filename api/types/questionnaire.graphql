@@ -1,0 +1,81 @@
+enum PunctuationType {
+    bad
+    medium
+    good
+}
+
+type Option {
+    id: ID!
+    name: String!
+    punctuationType: PunctuationType!
+    punctuation: Int!
+    order: Int
+}
+
+type Question {
+    id: ID!
+    name: String!
+    auxInfo: String
+    order: Int!
+    options: [Option]
+}
+
+type FullQuestionnaire {
+    id: ID!
+    name: String!
+    bad: Int!
+    recommendationBad: String
+    medium: Int!
+    recommendationMedium: String
+    good: Int!
+    recommendationGood: String
+    periodicity: Int
+    questions: [Question]
+}
+
+type Questionnaire {
+    id: ID!
+    name: String!
+    bad: Int!
+    recommendationBad: String
+    medium: Int!
+    recommendationMedium: String
+    good: Int!
+    recommendationGood: String
+    periodicity: Int
+}
+
+input CreateOption {
+    name: String!
+    punctuationType: PunctuationType!
+    punctuation: Int!
+    order: Int!
+}
+
+input SpreadQuestion {
+    name: String!
+    auxInfo: String
+    order: Int!
+    options: [CreateOption]
+}
+
+input SpreadQuestionnaire {
+    name: String!
+    bad: Int!
+    recommendationBad: String
+    medium: Int!
+    recommendationMedium: String
+    good: Int!
+    recommendationGood: String
+    periodicity: Int
+    questions: [SpreadQuestion]
+}
+
+extend type Query {
+    questionnaire(id: ID!): Questionnaire
+    fullQuestionnaire(id: ID!): FullQuestionnaire!
+}
+
+extend type Mutation {
+    spreadQuestionnaire(input: SpreadQuestionnaire!): Questionnaire!
+}

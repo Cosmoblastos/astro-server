@@ -9,7 +9,7 @@ const server = new GraphQLServer({ typeDefs, resolvers });
 server
     .start(options)
     .then(() => {
-        console.log(`Server ready 👌 at ${apiConfig.url}`)
+        console.log(`Server 👌 at ${apiConfig.url}`)
     })
     .catch((error) => {
         console.log('SERVER ERROR:', error);
