@@ -27,11 +27,15 @@ class QuestionnaireController  {
             let where = {};
             if (id) where.id = id;
 
-            let questionnaire = await Questionnaire.findOne({ where, plain: true });
+            let questionnaire = await Questionnaire.findOne({ where });
+            if (questionnaire) questionnaire = questionnaire.get({ plain: true });
+            if (!questionnaire.id) throw new Error('There are no records in questionnaires for this query');
             const questions = await Question.findAll({ where: { questionnaireId: questionnaire.id } });
             const questionsAndOptions = [];
-            for (const question of questions) {
-                const options = await Option.findAll({ where: { questionId: question.id } });
+            for (let question of questions) {
+                question = question.get({ plain: true });
+                let options = await Option.findAll({ where: { questionId: question.id } });
+                options = options.map(opt => opt.get({ plain: true }));
                 questionsAndOptions.push({ ...question, options });
             }
             questionnaire.questions = questionsAndOptions;
@@ -44,6 +48,7 @@ class QuestionnaireController  {
 
     static async create (data) {
         try {
+            data.id = crs({ type: 'url-safe', length: 10 });
             const questionnaire = await Questionnaire.create(data);
             await cacheManager.del({space: 'questionnaire', key: '*'});
             return this.get({ id: questionnaire.id });
@@ -55,7 +60,6 @@ class QuestionnaireController  {
     static async spread (data) {
         try {
             const questionnaire = await this.create(data);
-            console.log(data, questionnaire);
             if (data.questions) if (data.questions.length > 0) {
                 for (let question of data.questions) {
                     await QuestionController.spread({
@@ -90,6 +94,7 @@ class QuestionController {
 
     static async create (data) {
         try {
+            data.id = crs({ type: 'url-safe', length: 10 });
             const question = await Question.create(data);
             await cacheManager.del({ space: 'question', key: 'id' });
             return question;
@@ -131,6 +136,7 @@ class OptionController {
 
     static async create (data) {
         try {
+            data.id = crs({ type: 'url-safe', length: 10 });
             const option = await Option.create(data);
             await cacheManager.del({ space: 'option', key: '*' });
             return option;

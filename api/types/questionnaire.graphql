@@ -23,11 +23,13 @@ type Question {
 type FullQuestionnaire {
     id: ID!
     name: String!
-    bad: Int!
+    description: String
+    instructions: String
+    bad: [Int!]!
     recommendationBad: String
-    medium: Int!
+    medium: [Int!]!
     recommendationMedium: String
-    good: Int!
+    good: [Int!]!
     recommendationGood: String
     periodicity: Int
     questions: [Question]
@@ -36,11 +38,13 @@ type FullQuestionnaire {
 type Questionnaire {
     id: ID!
     name: String!
-    bad: Int!
+    description: String
+    instructions: String
+    bad: [Int!]!
     recommendationBad: String
-    medium: Int!
+    medium: [Int!]!
     recommendationMedium: String
-    good: Int!
+    good: [Int!]!
     recommendationGood: String
     periodicity: Int
 }
@@ -61,11 +65,13 @@ input SpreadQuestion {
 
 input SpreadQuestionnaire {
     name: String!
-    bad: Int!
+    description: String
+    instructions: String
+    bad: [Int!]!
     recommendationBad: String
-    medium: Int!
+    medium: [Int!]!
     recommendationMedium: String
-    good: Int!
+    good: [Int!]!
     recommendationGood: String
     periodicity: Int
     questions: [SpreadQuestion]

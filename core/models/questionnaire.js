@@ -16,10 +16,28 @@ Questionnaire.init({
         type: Sequelize.STRING(256),
         allowNull: false,
     },
+    description: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+    },
+    //Texto rico
+    instructions: {
+        type: Sequelize.TEXT,
+        allowNull: true
+    },
     //Puntuación para estatus de salud malo
     bad: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING(10),
         defaultValue: 0,
+        set (v) {
+            const [low, high] = v;
+            this.setDataValue('bad', `${low}-${high}`);
+        },
+        get () {
+            let storedValue = this.getDataValue('bad');
+            storedValue = storedValue.split('-');
+            return storedValue;
+        }
     },
     recommendationBad: {
         type: Sequelize.TEXT,
@@ -27,8 +45,17 @@ Questionnaire.init({
     },
     //Puntuación para estatus de salud medio
     medium: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0
+        type: Sequelize.STRING(10),
+        defaultValue: 0,
+        set (v) {
+            const [low, high] = v;
+            this.setDataValue('medium', `${low}-${high}`);
+        },
+        get () {
+            let storedValue = this.getDataValue('medium');
+            storedValue = storedValue.split('-');
+            return storedValue;
+        }
     },
     recommendationMedium: {
         type: Sequelize.TEXT,
@@ -36,8 +63,17 @@ Questionnaire.init({
     },
     //Puntuación para estatus de salud bueno
     good: {
-        type: Sequelize.INTEGER,
-        defaultValue: 0
+        type: Sequelize.STRING(10),
+        defaultValue: 0,
+        set (v) {
+            const [low, high] = v;
+            this.setDataValue('good', `${low}-${high}`);
+        },
+        get () {
+            let storedValue = this.getDataValue('good');
+            storedValue = storedValue.split('-');
+            return storedValue;
+        }
     },
     recommendationGood: {
         type: Sequelize.TEXT,
@@ -70,7 +106,7 @@ Question.init({
         allowNull: false,
     },
     auxInfo: {
-        type: Sequelize.STRING(256),
+        type: Sequelize.TEXT,
         allowNull: true,
         defaultValue: ''
     },
