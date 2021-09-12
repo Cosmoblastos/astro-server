@@ -1,16 +1,21 @@
 const { AuthController } = require('../../core/controllers/auth');
 module.exports = {
-    Mutation: {
-        login: async (_, { email, password }) => {
-            try {
-                if (!email) throw new Error('No email specified');
-                if (!password) throw new Error('No password specified');
-                return await AuthController.login(email, password);
-            } catch (error) {
-                return { error };
-            }
+    Query: {
+        async refresh (_, { refreshToken }) {
+            return await AuthController.refresh(refreshToken);
         },
-        signUp: async (_, { data }) => {
+        async initialize (_, { token }) {
+            if (!token) throw new Error('No token specified');
+            return await AuthController.initialize(token);
+        }
+    },
+    Mutation: {
+        async login (_, { email, password }) {
+            if (!email) throw new Error('No email specified');
+            if (!password) throw new Error('No password specified');
+            return await AuthController.login(email, password);
+        },
+        async signUp (_, { data }) {
             try {
                 return await AuthController.signUp(data);
             } catch (error) {

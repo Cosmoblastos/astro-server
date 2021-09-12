@@ -100,6 +100,22 @@ class AuthController {
         const tokens = await this.createTokens(auth.user.id);
         return { user: auth.user, tokens };
     }
+
+    static async refresh(refreshToken) {
+        const verifyResult = await Token.refresh(refreshToken);
+        if (!verifyResult?.token) throw new Error('Invalid refresh token');
+        const user = await UserController.get({ id: verifyResult.data.userId });
+        if (!user) return;
+        return { user, token: verifyResult.token };
+    }
+
+    static async initialize (token) {
+        const verifyResult = await Token.refresh(token);
+        if (!verifyResult?.token) throw new Error('Invalid token');
+        const user = await UserController.get({ id: verifyResult.data.userId });
+        if (!user) return;
+        return { user };
+    }
 }
 
 module.exports = { AuthController, AuthEmailPasswordController };

@@ -9,6 +9,15 @@ type AuthResult {
     error: String
 }
 
+type RefreshResult {
+    user: User
+    token: String
+}
+
+type InitializeResult {
+    user: User
+}
+
 input CreateSignUp {
     id: ID
     firstName: String!
@@ -16,6 +25,11 @@ input CreateSignUp {
     email: String!
     password: String!
     phoneNumber: String
+}
+
+extend type Query {
+    refresh(refreshToken: String!): RefreshResult
+    initialize(token: String): InitializeResult
 }
 
 extend type Mutation {

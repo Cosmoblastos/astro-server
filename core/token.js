@@ -52,9 +52,9 @@ class Token {
 
     static async refresh (refreshToken) {
         const data = JWT.verify(refreshToken, jwtConfig.secret);
-        if (data?.type !== 'refresh') throw {
+        if (data?.type !== 'auth') throw {
             status: 401,
-            error: 'the refresh token is invalid'
+            error: 'the token is invalid'
         }
         const token = await this.create(data?.userId, 'auth');
         return { token, data };
