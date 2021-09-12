@@ -19,7 +19,7 @@ class Token {
      * @return {Token | null | undefined}
      * */
     static validate (req) {
-        const tokenHeader = String(req.headers.authorization);
+        const tokenHeader = String(req.headers['authorization']);
         // if authorization token doesn't exists, don't authorize the request
         if (!tokenHeader) return null;
         // getting token from string
@@ -27,11 +27,7 @@ class Token {
         // if authorization token doesn't exists, don't authorize the request
         if (!token) return null;
 
-        try {
-            return JWT.verify(token, jwtConfig.secret);
-        } catch (error) {
-            console.error(error);
-        }
+        return JWT.verify(token, jwtConfig.secret);
     }
 
     /**
@@ -62,6 +58,12 @@ class Token {
         }
         const token = await this.create(data?.userId, 'auth');
         return { token, data };
+    }
+
+    static validateSession (token) {
+        if (token)
+            if (token.userId) return true;
+        throw new Error('No session');
     }
 }
 
