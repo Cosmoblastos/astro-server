@@ -4,30 +4,38 @@ services:
     build: .
     hostname: astro-server
     container_name: server
+    command: sh -c "/wait && npm run db_sync-prod && npm run prod"
     environment:
-      NODE_ENV: 'production'
+      - NODE_ENV='production'
+      - WAIT_HOSTS=mysql:3306
+      - WAIT_HOSTS_TIMEOUT=300
+      - WAIT_SLEEP_INTERVAL=30
+      - WAIT_HOST_CONNECT_TIMEOUT=30
+    ports:
+      - "4939:4939"
     depends_on:
-      - mysql
-      - nginx
-      - redis
+      - "mysql"
+      - "nginx"
+      - "redis"
   nginx:
     image: nginx:latest
     restart: always
     build:
-      context: nginx
+     context: ./nginx
     ports:
       - "80:80"
     environment:
-      - NGINX_HOST=foobar.com
+      - NGINX_HOST=localhost
       - NGINX_PORT=80
   redis:
     image: "redis:alpine"
+    hostname: astro-redis
     command: redis-server --requirepass astro-redis-password
     ports:
       - "6379:6379"
     volumes:
       - $PWD/redis-data:/var/lib/redis
-        - $PWD/redis.conf:/usr/local/etc/redis/redis.conf
+      - $PWD/redis.conf:/usr/local/etc/redis/redis.conf
     environment:
       - REDIS_REPLICATION_MODE=master
   mysql:
@@ -37,6 +45,7 @@ services:
     environment:
       MYSQL_USER: astro
       MYSQL_PASSWORD: astro
+      MYSQL_ROOT_PASSWORD: astro-root-password
       MYSQL_DATABASE: astro-prod
     ports:
       - "3307:3306"

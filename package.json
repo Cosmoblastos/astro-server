@@ -5,6 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "db_sync": "node ./bin/db_sync.js",
+    "db_sync-prod": "cross-env NODE_ENV=production node ./bin/db_sync.js",
     "dev": "cross-env NODE_ENV=development node server.js",
     "prod": "cross-env NODE_ENV=production node server.js"
   },
