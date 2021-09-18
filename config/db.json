@@ -16,5 +16,23 @@
       "underscore": true,
       "timestamps": false
     }
+  },
+  "production": {
+    "logging": false,
+    "dialect": "mysql",
+    "host": "astro-mysql",
+    "port": 3306,
+    "username": "astro",
+    "password": "astro",
+    "database": "astro-prod",
+    "pool": {
+      "max": 5,
+      "idle": 30000,
+      "acquire": 60000
+    },
+    "define": {
+      "underscore": true,
+      "timestamps": false
+    }
   }
 }

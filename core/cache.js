@@ -1,8 +1,9 @@
-const Redis = require('ioredis');
+const Redis = require('ioredis'),
+    { redisConfig } = require('../config');
 
 class CacheManager {
     constructor () {
-        this.manager = new Redis();
+        this.manager = new Redis(redisConfig);
     }
 
     parseKeyStructure (key) {
