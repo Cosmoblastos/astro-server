@@ -1,0 +1,44 @@
+version: '3'
+services:
+  server:
+    build: .
+    hostname: astro-server
+    container_name: server
+    environment:
+      NODE_ENV: 'production'
+    depends_on:
+      - mysql
+      - nginx
+      - redis
+  nginx:
+    image: nginx:latest
+    restart: always
+    build:
+      context: nginx
+    ports:
+      - "80:80"
+    environment:
+      - NGINX_HOST=foobar.com
+      - NGINX_PORT=80
+  redis:
+    image: "redis:alpine"
+    command: redis-server --requirepass astro-redis-password
+    ports:
+      - "6379:6379"
+    volumes:
+      - $PWD/redis-data:/var/lib/redis
+        - $PWD/redis.conf:/usr/local/etc/redis/redis.conf
+    environment:
+      - REDIS_REPLICATION_MODE=master
+  mysql:
+    image: mysql
+    hostname: astro-mysql
+    restart: always
+    environment:
+      MYSQL_USER: astro
+      MYSQL_PASSWORD: astro
+      MYSQL_DATABASE: astro-prod
+    ports:
+      - "3307:3306"
+    volumes:
+      - $HOME/Desktop/MySQL-Snippets/school.sql:/school.sql
