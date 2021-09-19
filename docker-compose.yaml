@@ -15,7 +15,6 @@ services:
       - "4939:4939"
     depends_on:
       - "mysql"
-      - "nginx"
       - "redis"
   nginx:
     image: nginx:latest
