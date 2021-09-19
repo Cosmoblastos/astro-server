@@ -2,8 +2,8 @@
 # base image
 FROM node:14-alpine
 # create & set working directory
-RUN mkdir -p /usr/src/server
-WORKDIR ./server/
+#RUN mkdir -p /usr/src/server
+#WORKDIR ./server/
 # Copy new files or directories into the filesystem of the container
 COPY ./package*.json ./server/
 # install dependencies
