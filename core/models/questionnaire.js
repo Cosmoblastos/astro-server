@@ -10,7 +10,6 @@ Questionnaire.init({
         type: Sequelize.STRING(10),
         primaryKey: true,
         allowNull: false,
-        defaultValue: crs({ type: 'url-safe', length: 10 })
     },
     name: {
         type: Sequelize.STRING(256),
@@ -99,7 +98,6 @@ Question.init({
         type: Sequelize.STRING(10),
         primaryKey: true,
         allowNull: false,
-        defaultValue: crs({ type: 'url-safe', length: 10 })
     },
     name: {
         type: Sequelize.STRING(256),
@@ -138,7 +136,6 @@ Option.init({
         type: Sequelize.STRING(10),
         primaryKey: true,
         allowNull: false,
-        defaultValue: crs({ type: 'url-safe', length: 10 })
     },
     name: {
         type: Sequelize.STRING(256),
@@ -180,7 +177,6 @@ UserQuestionnaire.init({
         type: Sequelize.STRING(10),
         primaryKey: true,
         allowNull: false,
-        defaultValue: crs({ type: 'url-safe', length: 10 })
     },
     punctuation: {
         type: Sequelize.INTEGER,
@@ -222,7 +218,6 @@ UserQuestion.init({
         type: Sequelize.STRING(10),
         primaryKey: true,
         allowNull: false,
-        defaultValue: crs({ type: 'url-safe', length: 10 })
     }
 }, {
     sequelize: db,

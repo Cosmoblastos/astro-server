@@ -9,7 +9,6 @@ User.init({
         type: Sequelize.STRING(10),
         primaryKey: true,
         allowNull: false,
-        defaultValue: crs({ type: 'url-safe', length: 10 })
     },
     firstName: {
         type: Sequelize.STRING(40),

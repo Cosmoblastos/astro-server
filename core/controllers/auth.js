@@ -2,7 +2,8 @@ const cacheManager = require('../cache'),
     { Auth, AuthEmailPassword } = require('../models/auth'),
     Token = require('../token'),
     { UserController } = require('./user'),
-    bcrypt = require('bcrypt');
+    bcrypt = require('bcrypt'),
+    crs = require('crypto-random-string');
 
 class AuthEmailPasswordController {
     static async get ({ id, authId }) {
@@ -27,6 +28,7 @@ class AuthEmailPasswordController {
 
     static async create (data) {
         try {
+            if (!data.id) data.id = crs({ type: 'url-safe', length: 10 });
             if (!data.password) throw new Error('No password specified');
             if (data.auth) data.authId = data.auth.id;
             data.password = bcrypt.hashSync(data.password, 10);
@@ -55,6 +57,7 @@ class AuthController {
     }
 
     static async create (data) {
+        if (!data.id) data.id = crs({ type: 'url-safe', length: 10 });
         if (!data.email) throw new Error('No email specified');
         if (data.user) data.userId = data.user.id;
         const emailExists = await this.get({email: data.email});

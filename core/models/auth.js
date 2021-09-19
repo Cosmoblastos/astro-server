@@ -10,7 +10,6 @@ Auth.init({
         type: Sequelize.STRING(10),
         primaryKey: true,
         allowNull: false,
-        defaultValue: crs({ type: 'url-safe', length: 10 })
     },
     email: {
         type: Sequelize.STRING(256),
