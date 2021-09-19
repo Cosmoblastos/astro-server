@@ -8,7 +8,7 @@ const cacheManager = require('../cache'),
 class AuthEmailPasswordController {
     static async get ({ id, authId }) {
         try {
-            const cachedData = await cacheManager.get({ space: 'auth', key: `${id}+${authId}` });
+            const cachedData = await cacheManager.get({ space: 'authEmailPassword', key: `${id}+${authId}` });
             if (cachedData) return cachedData;
 
             let where = {};
@@ -33,6 +33,8 @@ class AuthEmailPasswordController {
             if (data.auth) data.authId = data.auth.id;
             data.password = bcrypt.hashSync(data.password, 10);
             await AuthEmailPassword.create(data);
+            await cacheManager.del({ space: 'authEmailPassword', delete: '*' })
+            return this.get({ id: data.id });
         } catch (error) {
             console.log(error);
         }
