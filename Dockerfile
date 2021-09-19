@@ -3,13 +3,13 @@
 FROM node:14-alpine
 # create & set working directory
 #RUN mkdir -p /usr/src/server
-WORKDIR ./server/
+WORKDIR /usr/src/server
 # Copy new files or directories into the filesystem of the container
-COPY ~/astro-server/package*.json ./server/
+COPY package*.json ./
 # install dependencies
 RUN npm install
 # copy source files
-COPY ~/astro-server/ ./server/
+COPY . .
 # sync database
 RUN npm install -g cross-env
 RUN npm i bcrypt
