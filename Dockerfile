@@ -3,13 +3,13 @@
 FROM node:14-alpine
 # create & set working directory
 # RUN mkdir -p /usr/src/app
-WORKDIR /server
+WORKDIR server/
 # Copy new files or directories into the filesystem of the container
-COPY package*.json /server
+COPY package*.json server/
 # install dependencies
 RUN npm install
 # copy source files
-COPY . /server
+COPY . server/
 # sync database
 RUN npm install -g cross-env
 RUN npm i bcrypt
