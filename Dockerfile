@@ -5,11 +5,11 @@ FROM node:14-alpine
 #RUN mkdir -p /usr/src/server
 WORKDIR ./server/
 # Copy new files or directories into the filesystem of the container
-COPY ./astro-server/package*.json ./server/
+COPY ~/astro-server/package*.json ./server/
 # install dependencies
 RUN npm install
 # copy source files
-COPY ./astro-server/ ./server/
+COPY ~/astro-server/ ./server/
 # sync database
 RUN npm install -g cross-env
 RUN npm i bcrypt
