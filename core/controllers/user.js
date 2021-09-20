@@ -12,7 +12,7 @@ class UserController {
 
         let user = await User.findOne({where});
         if (user) {
-            user.get({ plain: true });
+            user = user.get({ plain: true });
             await cacheManager.set({space: 'user', key: `${id}`}, user);
         }
         return user;

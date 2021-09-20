@@ -1,0 +1,58 @@
+enum Sex {
+    male
+    female
+} 
+
+type MedicalProfile {
+    id: ID!
+    age: Int
+    sex: Sex
+    weight: Float
+    height: Float
+    bmi: Float
+}
+
+input UpsertMedicalProfile {
+    id: ID!
+    age: Int
+    sex: Sex
+    weight: Float
+    height: Float
+    userId: ID!
+}
+
+type Metric {
+    id: ID!
+    type: String!
+    metric: Float
+    measurementDate: Date!
+    userId: ID!
+}
+
+input CreateMetric {
+    type: String!
+    metric: Float
+    measurementDate: Date!
+    userId: ID!
+}
+
+input MetricStatisticsOptions {
+    asc: Boolean = false
+}
+
+extend type Query {
+    medicalProfile(id: ID, userId: ID): MedicalProfile
+    metric(id: ID, userId: ID, asc: Boolean = false): Metric
+    metricStatistics(
+        type: String!
+        startDate: Date!
+        endDate: Date!
+        userId: ID!
+        options: MetricStatisticsOptions
+    ): [Metric]
+}
+
+extend type Mutation {
+    upsertMedicalProfile(data: UpsertMedicalProfile): MedicalProfile
+    createMetric(data: CreateMetric!): Metric
+}

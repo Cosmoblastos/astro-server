@@ -77,11 +77,61 @@ input SpreadQuestionnaire {
     questions: [SpreadQuestion]
 }
 
+enum UserQuestionnaireStatus {
+    ongoing
+    finished
+}
+
+type UserQuestionnaire {
+    id: ID!
+    status: UserQuestionnaireStatus
+    percentage: Float
+    punctuation: Int
+    result: PunctuationType
+    userId: ID!
+    questionnaireId: ID!
+}
+
+type UserQuestion {
+    id: ID!
+    question: ID!
+    answer: Option!
+}
+
+type FullUserQuestionnaire {
+    id: ID!
+    status: UserQuestionnaireStatus
+    percentage: Float
+    punctuation: Int
+    result: PunctuationType
+    userQuestions: [UserQuestion]
+}
+
+input Answer {
+    optionId: ID
+    punctuation: Int
+}
+
+input CreateUserQuestion {
+    questionId: ID!
+    answer: Answer!
+}
+
+input SpreadUserQuestionnaire {
+    userId: ID!
+    questionnaireId: ID!
+    userQuestions: [CreateUserQuestion]
+}
+
 extend type Query {
     questionnaire(id: ID!): Questionnaire
+    questionnaires: [Questionnaire]
     fullQuestionnaire(id: ID!): FullQuestionnaire!
+    userQuestionnaire(id: ID!): UserQuestionnaire!
+    fullUserQuestionnaire(id: ID!): FullUserQuestionnaire!
 }
 
 extend type Mutation {
-    spreadQuestionnaire(input: SpreadQuestionnaire!): Questionnaire!
+    spreadQuestionnaire(data: SpreadQuestionnaire!): Questionnaire!
+    spreadUserQuestionnaire(data: SpreadUserQuestionnaire!): UserQuestionnaire!
 }

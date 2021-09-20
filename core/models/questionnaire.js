@@ -1,6 +1,5 @@
 const db = require('../db'),
     Sequelize = require('sequelize'),
-    crs = require('crypto-random-string'),
     user = require('./user');
 
 class Questionnaire extends Sequelize.Model {}
@@ -178,6 +177,16 @@ UserQuestionnaire.init({
         primaryKey: true,
         allowNull: false,
     },
+    status: {
+        type: Sequelize.ENUM('ongoing', 'finished'),
+        allowNull: false,
+        defaultValue: 'ongoing'
+    },
+    percentage: {
+        type: Sequelize.FLOAT,
+        allowNull: false,
+        defaultValue: 0
+    },
     punctuation: {
         type: Sequelize.INTEGER,
         defaultValue: 0
@@ -188,6 +197,7 @@ UserQuestionnaire.init({
     }
 }, {
     sequelize: db,
+    paranoid: true,
     timestamps: true,
 });
 
@@ -248,9 +258,10 @@ UserQuestion.belongsTo(Option, {
         name: 'answerId',
         allowNull: false
     }
-})
+});
 
 exports.UserQuestion = UserQuestion;
+
 
 exports.sync = async (opt = { alter: true }) => {
     await Questionnaire.sync(opt);

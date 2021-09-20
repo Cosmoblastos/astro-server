@@ -1,6 +1,5 @@
 const db = require('../db'),
-    Sequelize = require('sequelize'),
-    crs = require('crypto-random-string');
+    Sequelize = require('sequelize');
 
 class User extends Sequelize.Model {}
 
@@ -9,6 +8,14 @@ User.init({
         type: Sequelize.STRING(10),
         primaryKey: true,
         allowNull: false,
+    },
+    email: {
+        type: Sequelize.STRING(254),
+        allowNull: false,   
+    },
+    phoneNumber: {
+        type: Sequelize.STRING(15),
+        allowNull: true
     },
     firstName: {
         type: Sequelize.STRING(40),
@@ -24,10 +31,6 @@ User.init({
             return `${this.getDataValue('firstName')} ${this.getDataValue('lastName')}`;
         }
     },
-    phoneNumber: {
-        type: Sequelize.STRING(15),
-        allowNull: true
-    }
 }, {
     sequelize: db,
     timestamps: true,
